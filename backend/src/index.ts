@@ -3,7 +3,6 @@ import Fastify from "fastify";
 import fastifyCookie from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import fastifyRateLimit from "@fastify/rate-limit";
-import fastifyHelmet from "@fastify/helmet";
 import { Server as HttpServer } from "http";
 
 import { authRoutes } from "./auth/routes";
@@ -21,8 +20,6 @@ async function bootstrap() {
   });
 
   // ─── Plugins ────────────────────────────────────────────────────────────
-  await fastify.register(fastifyHelmet, { global: true });
-
   await fastify.register(fastifyCors, {
     origin: FRONTEND_URL,
     credentials: true,
