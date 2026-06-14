@@ -13,13 +13,19 @@ This project is a real-time stock broker dashboard. It provides a web interface 
 *Email authentication screen to access the project.*
 
 ## Assignment Requirements Covered
-- Login using email
-- Subscribe using ticker code
-- Supported stocks: GOOG, TSLA, AMZN, META, NVDA
-- Stock updates every second
-- No refresh required
-- Multiple users receive independent asynchronous updates
-- Prices are simulated
+
+- [x] Login using email
+- [x] Subscribe using ticker code
+- [x] Supported stocks:
+  - GOOG
+  - TSLA
+  - AMZN
+  - META
+  - NVDA
+- [x] Stock updates every second
+- [x] No refresh required
+- [x] Multiple users receive independent asynchronous updates
+- [x] Prices are simulated
 
 ## Features
 - Email login
@@ -34,7 +40,7 @@ This project is a real-time stock broker dashboard. It provides a web interface 
 - **Database:** SQLite
 
 ## System Overview
-Users log into the project via a REST API and receive a secure token. Once authenticated, they subscribe to their preferred stock tickers, which are saved to the database. The frontend establishes a WebSocket connection to the server. A background simulator continuously generates random prices every second. The server filters these prices based on active user subscriptions and pushes the updates independently to each connected client. This ensures users only see real-time data for the specific stocks they chose, without refreshing the page.
+Users log in using email and receive an authenticated session and receive a secure token. Once authenticated, they subscribe to their preferred stock tickers, which are saved to the database. The frontend establishes a WebSocket connection to the server. A background simulator continuously generates random prices every second. The server filters these prices based on active user subscriptions and pushes the updates independently to each connected client. This ensures users only see real-time data for the specific stocks they chose, without refreshing the page.
 
 ## Architecture
 
@@ -82,7 +88,7 @@ npm install
 
 **Backend (`backend/.env`)**
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://postgres@localhost:5432/stock_dashboard"
 JWT_SECRET="secret_key"
 FRONTEND_URL="http://localhost:3000"
 BACKEND_PORT="4000"
@@ -98,7 +104,7 @@ NEXT_PUBLIC_API_URL="http://localhost:4000"
 **Backend**
 ```bash
 cd backend
-npm run db:reset
+cd backend
 npm run dev
 ```
 
