@@ -15,7 +15,9 @@ const authBodySchema = z.object({
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "strict" as const,
+  // "none" required when frontend (Netlify) and backend (Render) are on different origins.
+  // Must be paired with secure:true in production.
+  sameSite: (process.env.NODE_ENV === "production" ? "none" : "strict") as "none" | "strict",
   path: "/",
   maxAge: 60 * 60 * 24 * 7, // 7 days in seconds
 };

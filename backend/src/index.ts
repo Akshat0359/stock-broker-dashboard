@@ -10,7 +10,8 @@ import { stockRoutes } from "./stocks/routes";
 import { initSocketIO } from "./websocket/handler";
 import { initPrices, startPriceSimulator } from "./stocks/simulator";
 
-const PORT = parseInt(process.env.BACKEND_PORT ?? "4000", 10);
+// Render injects PORT dynamically; fall back to BACKEND_PORT for local dev
+const PORT = parseInt(process.env.PORT ?? process.env.BACKEND_PORT ?? "4000", 10);
 const FRONTEND_URL = process.env.FRONTEND_URL ?? "http://localhost:3000";
 
 async function bootstrap() {
