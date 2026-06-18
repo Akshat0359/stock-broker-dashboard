@@ -1,17 +1,19 @@
 # ─── Netlify Configuration for StockDash Frontend ────────────────────────────
-# This file tells Netlify how to build and serve the Next.js app correctly.
-# Without this file, Netlify cannot determine base dir, publish dir, or that
-# this is a Next.js SSR app — causing "Page not found" on every route.
 
 [build]
   base    = "frontend"
   command = "npm install && npm run build"
   publish = ".next"
 
+# NEXT_PUBLIC_* vars are baked into the JS bundle at build time by Next.js.
+# They MUST be present here (or in the Netlify dashboard) before the build runs.
+# .env.local is gitignored and never reaches Netlify — so we set them here.
+[build.environment]
+  NEXT_PUBLIC_BACKEND_URL = "https://stock-broker-dashboard-ftre.onrender.com"
+  NODE_VERSION            = "20"
+
 # The @netlify/plugin-nextjs plugin is required for:
-# - Next.js SSR (server-side rendering) pages to work
-# - Client-side routing (navigating to /login, /dashboard without 404)
-# - Page refresh not returning 404 on dynamic routes
-# - API routes (if added in the future)
+# - SSR pages to be served correctly
+# - Client-side routing (/login, /dashboard) without 404 on refresh
 [[plugins]]
   package = "@netlify/plugin-nextjs"
