@@ -9,6 +9,7 @@
     "start": "node dist/index.js",
     "db:migrate": "prisma migrate dev",
     "db:seed": "ts-node prisma/seed.ts",
+    "db:seed:prod": "node -e \"const{PrismaClient}=require('@prisma/client');const bcrypt=require('bcrypt');const p=new PrismaClient();Promise.all([bcrypt.hash('password123',12),bcrypt.hash('password456',12)]).then(([h1,h2])=>Promise.all([p.user.upsert({where:{email:'alice@example.com'},update:{},create:{email:'alice@example.com',passwordHash:h1}}),p.user.upsert({where:{email:'bob@example.com'},update:{},create:{email:'bob@example.com',passwordHash:h2}})])).then(()=>{console.log('Seeded demo users');return p.$disconnect()}).catch(console.error)\"",
     "db:reset": "prisma migrate reset --force && ts-node prisma/seed.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"
