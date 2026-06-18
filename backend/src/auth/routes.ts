@@ -85,7 +85,15 @@ export async function authRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/auth/logout",
     async (_request: FastifyRequest, reply: FastifyReply) => {
-      reply.clearCookie("auth_token", { path: "/" });
+      // MUST pass the same SameSite + Secure + Path that were used when setting
+      // the cookie. Without these, the browser treats it as a different cookie
+      // and leaves the original auth_token alive — causing auto-login on refresh.
+      reply.clearCookie("auth_token", {
+        path: "/",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: (process.env.NODE_ENV === "production" ? "none" : "strict") as "none" | "strict",
+      });
       return reply.send({ message: "Logged out successfully" });
     }
   );
