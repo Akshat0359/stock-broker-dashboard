@@ -52,7 +52,9 @@ async function bootstrap() {
   await initPrices();
 
   await fastify.listen({ port: PORT, host: "0.0.0.0" });
-  console.log(`🚀 Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Backend running on port ${PORT}`);
+  console.log(`🌐 CORS origin: ${FRONTEND_URL}`);
+  console.log(`🔑 NODE_ENV: ${process.env.NODE_ENV ?? "(not set — cookies will use SameSite=Strict, breaking cross-origin auth!)"}`);
 
   startPriceSimulator();
 }
