@@ -7,6 +7,8 @@ COPY . .
 RUN npm run build
 
 FROM node:20-alpine AS runner
+# Prisma query-engine and schema-engine link against libssl — must be installed
+RUN apk add --no-cache openssl
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
